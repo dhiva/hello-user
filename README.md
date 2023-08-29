@@ -114,7 +114,7 @@ This project contains docker-compose to enable quick setup of local development 
 
 ## System Design
 
-![gcp-infra-design](doc/gcp-infra-design.png "GCP System Design")
+![gcp-infra-design](doc/gcp-infra-design-white.png "GCP System Design")
 
 ### Overview
 
