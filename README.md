@@ -1,8 +1,6 @@
 # Hello User
 
-This project provides a simple RESTful API greeting service. The service calculates the number of days left to the user's next birthday.
-
-The service is built using Python and the FastAPI framework. Uses Alembic for database migration, Pydantic for data validation and SQLModel for database interactions.  
+Welcome to the Hello User project! This service offers a RESTful API that greets users while keeping track of their upcoming birthdays. Powered by Python and the FastAPI framework, the service also leverages Alembic for database migrations, Pydantic for robust data validation, and SQLModel for seamless database operations.
 
 ## Features
 
@@ -20,7 +18,7 @@ The service is built using Python and the FastAPI framework. Uses Alembic for da
 
 
 
-Interactive API documentation and OpenAPI spec are available at ` http://127.0.0.1:8000/docs` and ` http://127.0.0.1:8000/redoc` once you run the application.
+For detailed API documentation, navigate to `http://127.0.0.1:8000/docs` and `http://127.0.0.1:8000/redoc` after launching the service.
 
 ![api-docs](doc/api-docs.png "API Docs")
 
@@ -33,20 +31,20 @@ Interactive API documentation and OpenAPI spec are available at ` http://127.0.0
 * Docker
 * Google Cloud Platform Account (For cloud deployment)
 
-## Repo Structure
+## Repository Structure
 
-This repository is structured as follows
+This repository is structured as follows:
 
-* **app** - folder contains the source code for the API service implemented using FastAPI framework.
-  * **tests** - folder under app contains the unit tests for the project
-  * **migrations** - contains the versioned database initialisation scripts using Alembic.
-* **docker** - contains the docker file required to build the image for local development and production deployment.
-* **iac** - contains the Terraform code to deploy the service to Google Cloud Platform using CloudRun, CloudSQL and Cloud LoadBalancer. 
-* **.github/workflows** - directory contains the github action definitions to build and deploy the service using Google Container Registry and Terraform.
+* **app**: This folder houses the API service's FastAPI-based source code.
+  - **tests**: Includes unit tests.
+  - **migrations**: Holds Alembic-generated database migration scripts.
+* **docker**: Contains the Dockerfile for building both local and production images.
+* **iac**: Holds Terraform scripts for deploying to Google Cloud Platform using services like CloudRun, CloudSQL, and Google Cloud Load Balancer.
+* **.github/workflows**: Defines GitHub Actions for CI/CD, handling both building and deploying via Google Container Registry and Terraform.
 
-## Local Development
+## Local Development Guide
 
-### Running in Host machine
+### On Your Host Machine
 
 1. Clone the repository
    ```shell
@@ -120,7 +118,7 @@ This project contains docker-compose to enable quick setup of local development 
 
 ### Overview
 
-The service and architectural decisions and configurations are made to deploy the hello user service on the Google Cloud Platform (GCP). The service is designed to be highly available, secure, and scalable, with a focus on automated deployment and centralized management.
+The service employs a robust architecture on Google Cloud Platform, focusing on high availability, security, and scalable deployments.
 
 ### Core Components
 
