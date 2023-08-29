@@ -4,25 +4,9 @@ from typing import Optional
 from pydantic import validator
 
 
-# class User(SQLModel):
-#     id: Optional[int] = Field(default=None, primary_key=True)
-#     username: str
-#     dateOfBirth: date
-#
-#     @validator('username')
-#     def validate_username(cls, v):
-#         if not v.isalpha():
-#             raise ValueError("username must contain only letters")
-#         return v
-#
-#     @validator('dateOfBirth')
-#     def validate_dob(cls, v):
-#         today = datetime.now().date()
-#         if v >= today:
-#             raise ValueError("Date of Birth must be before today date")
-#         return v
 class Base(SQLModel):
     pass
+
 
 class UserBase(Base):
     username: str = Field(unique=True, default=None )
