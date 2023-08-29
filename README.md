@@ -144,4 +144,24 @@ The service and architectural decisions and configurations are made to deploy th
 
 ### Deployment Strategy
 
+The service deployment to production can be done through "blue/green" deployment. When a new version of the service is deployed using Terraform, the new revision is configured with no traffic redirection. The new revision can be tested using the revision specific URL without the need to migrate user traffic to it.
 
+After running automated and manual tests on the service. Traffic can be migrated gradually to the new revision
+```shell
+$ gcloud beta run services update-traffic hello-user-service --to-tags green=1
+```
+
+The above command redirects 1% of traffic to the new revision. The traffic can be gradually increased by running the above command with increasing the traffic percentage.
+
+In case of issues, the code can be easily rolled back to previous revision using
+```shell
+$ gcloud beta run services update-traffic hello-user-service --to-revisions hello-user-service-0001=100
+```
+
+
+
+### Future Considerations
+
+* Enable autoscaling for the Cloud Run and CloudSQL services to handle varying workloads.
+* Improved Github Actions to automate terraform deployment.
+* CI/CD for automated testing and Blue/Green rollouts.

@@ -1,0 +1,55 @@
+name: Tag-build
+
+on:
+  push:
+    tags:
+      - '**'
+
+jobs:
+  Dockerize:
+    runs-on: ubuntu-22.04
+    permissions: write-all
+    env:
+      CLOUDSDK_PYTHON: python3
+      CLOUDSDK_PYTHON_SITEPACKAGES: 1
+      REPO_PROJECT: hello-user
+      IMAGE: hello-user
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Versions
+        run: |
+          cd $GITHUB_WORKSPACE
+          python --version
+          gcloud version
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          version: '432.0.0'
+
+      - name: Configure GCP Service Account
+        run: |
+          GOOGLE_APPLICATION_CREDENTIALS="${PWD}/service_account_key.json"
+          echo "GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}" >> $GITHUB_ENV
+          echo ${{ secrets.GCP_SERVICE_ACCOUNT_REPO0 }} | base64 -d > service_account_key.json
+          gcloud --quiet auth activate-service-account --key-file service_account_key.json
+
+          gcloud config list
+          gcloud config set project $REPO_PROJECT
+          gcloud --quiet auth configure-docker
+
+      - name: Extract Tag
+        id: get_tag_name
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
+      - name: Docker - Build Image
+        run: |
+          docker build \
+            --build-arg BUILD_VERSION=${{ steps.get_tag_name.outputs.VERSION }} \
+            --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
+            -t gcr.io/$REPO_PROJECT/$IMAGE:${{ steps.get_tag_name.outputs.VERSION }} \
+            -f ./docker/prod.Dockerfile .
+      - name: Docker - Push Image
+        run: |
+          docker push gcr.io/$REPO_PROJECT/$IMAGE:${{ steps.get_tag_name.outputs.VERSION }}

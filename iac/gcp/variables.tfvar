@@ -1,0 +1,4 @@
+project_id="hello-user"
+region="europe-west2"
+app_name="hello-user"
+sql_database_name="hello-user-db"
